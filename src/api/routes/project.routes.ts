@@ -2,10 +2,12 @@ import { Container } from "typedi";
 import { Router, Request, Response } from "express";
 import ProjectService from "../../services/project.service";
 import { Project } from "../../models/Entities/Project";
+import middleware from "../middlewares";
 
 const router = Router();
 
 export default (app: Router) => {
+  app.use("/projects", middleware.auth);
   app.use("/projects", router);
 
   router.get("/", async (req: Request, res: Response) => {

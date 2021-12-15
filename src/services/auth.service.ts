@@ -9,7 +9,7 @@ export default class AuthService {
   constructor(
     @Inject("SystemUserRepository")
     public systemUserRepository: SystemUserRepository
-  ) { }
+  ) {}
 
   public async getAll(): Promise<SystemUser[]> {
     return await this.systemUserRepository.getAll();
@@ -23,15 +23,17 @@ export default class AuthService {
     return await this.systemUserRepository.find(idSystemUser);
   }
 
-  public async checkLogin(systemUser: SystemUser): Promise<{ token: string | null, user: SystemUser | null }> {
+  public async checkLogin(
+    systemUser: SystemUser
+  ): Promise<{ token: string | null; user: SystemUser | null }> {
     const user = await this.systemUserRepository.checkLogin(systemUser);
-    if (!user) return { token: null, user }
+    if (!user) return { token: null, user };
     return { token: this.generateToken(user), user };
   }
 
   private generateToken(user: SystemUser) {
     const options: SignOptions = { expiresIn: "2h" };
-    const token = sign({ userId: user.Id }, config.jwtSecret, options);
+    const token = sign(user, config.jwtSecret, options);
     return token;
   }
 }

@@ -1,5 +1,5 @@
-import authentication from "./authentication";
+import auth from "./authentication";
 
 export default {
-  authentication,
+  auth,
 };
